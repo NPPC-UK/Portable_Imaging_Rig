@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import sys
 #from PyQt4 import QtGui, uic
 #from PyQt4.QtCore import Qt
@@ -54,7 +56,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
     def take_picture(self):
         try:
             if portable_camera.take_picture(self.in_plant_name.text()):
-                myPixmap = QPixmap('{0}.jpg'.format(
+                myPixmap = QPixmap('images/{0}/{0}.jpg'.format(
                     self.in_plant_name.text()).replace(' ', ''))
                 self.lbl_last_capture.setPixmap(myPixmap)
                 self.plant_queue.remove(self.in_plant_name.text())

@@ -18,9 +18,13 @@ def take_picture(plant_name):
           stdout=PIPE, stderr=STDOUT, close_fds=True).wait()
 
     try:
-        os.rename('capt0000.nef', '{0}.nef'.format(
+
+        if not os.path.exists('images/' + plant_name.replace(' ', '')):
+            os.makedirs('images/' + plant_name.replace(' ', ''))
+
+        os.rename('capt0000.nef', 'images/{0}/{0}.nef'.format(
             plant_name).replace(' ', ''))
-        os.rename('capt0000.jpg', '{0}.jpg'.format(
+        os.rename('capt0000.jpg', 'images/{0}/{0}.jpg'.format(
             plant_name).replace(' ', ''))
         return True
 
@@ -79,3 +83,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
