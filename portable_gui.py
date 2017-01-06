@@ -44,6 +44,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
             with open(self.in_csv_file.text()) as f:
                 self.plant_queue = [p.replace('\n', '') for p in f.readlines()]
                 self.setup_plant_list()
+                self.btn_load_csv.setEnabled(False)
         except:
             self.show_dialog(
                 "Try making sure that you've selected a valid CSV")
@@ -52,6 +53,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         fname = QFileDialog.getOpenFileName(
             self, 'Open file', '.', "CSV Files (*.csv)")
         self.in_csv_file.setText(fname)
+        self.btn_load_csv.setEnabled(True)
 
     def take_picture(self):
         try:
