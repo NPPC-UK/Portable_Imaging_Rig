@@ -1,9 +1,6 @@
 #!/usr/bin/python3
 
 import sys
-#from PyQt4 import QtGui, uic
-#from PyQt4.QtCore import Qt
-
 from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -11,8 +8,10 @@ from PyQt4.QtGui import *
 import portable_camera
 
 gui_file = 'GUI/mainwindow.ui'
-
 Ui_MainWindow, QtBaseClass = uic.loadUiType(gui_file)
+
+# Where 0 is the plant name and 1 is the date
+plant_save_location = 'images/{0}/{1}'
 
 
 class PlantCaptureGui(QMainWindow, Ui_MainWindow):
@@ -57,8 +56,9 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
     def take_picture(self):
         try:
-            if portable_camera.take_picture(self.in_plant_name.text()):
-                myPixmap = QPixmap('images/{0}/{0}.jpg'.format(
+            # TODO Fix this arbitrary dates
+            if portable_camera.take_picture(self.in_plant_name.text(), '2015-06-14'):
+                myPixmap = QPixmap('images/{0}/2015-06-14/{0}.jpg'.format(
                     self.in_plant_name.text()).replace(' ', ''))
                 self.lbl_last_capture.setPixmap(myPixmap)
                 self.plant_queue.remove(self.in_plant_name.text())

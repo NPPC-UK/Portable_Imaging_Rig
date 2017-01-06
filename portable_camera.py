@@ -12,7 +12,7 @@ import os
 from subprocess import Popen, PIPE, STDOUT
 
 
-def take_picture(plant_name):
+def take_picture(plant_name, date):
     cmd = 'gphoto2 --capture-image-and-download --force-overwrite'
     Popen((cmd), shell=True, stdin=PIPE,
           stdout=PIPE, stderr=STDOUT, close_fds=True).wait()
@@ -22,10 +22,11 @@ def take_picture(plant_name):
         if not os.path.exists('images/' + plant_name.replace(' ', '')):
             os.makedirs('images/' + plant_name.replace(' ', ''))
 
-        os.rename('capt0000.nef', 'images/{0}/{0}.nef'.format(
-            plant_name).replace(' ', ''))
-        os.rename('capt0000.jpg', 'images/{0}/{0}.jpg'.format(
-            plant_name).replace(' ', ''))
+        os.rename('capt0000.nef', 'images/{0}/{1}/{0}.nef'.format(
+            plant_name, date).replace(' ', ''))
+
+        os.rename('capt0000.jpg', 'images/{0}/{1}/{0}.jpg'.format(
+            plant_name, date).replace(' ', ''))
         return True
 
     except:
@@ -83,4 +84,3 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-
