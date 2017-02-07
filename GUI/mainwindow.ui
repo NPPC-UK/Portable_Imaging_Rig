@@ -50,6 +50,9 @@
        <property name="text">
         <string>Take Picture</string>
        </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item row="4" column="0">

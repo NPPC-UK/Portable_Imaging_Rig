@@ -17,21 +17,19 @@ def take_picture(plant_name, date, experiment_name='TR008'):
     Popen((cmd), shell=True, stdin=PIPE,
           stdout=PIPE, stderr=STDOUT, close_fds=True).wait()
 
-    naming_convention = '00_VIS_TV_000_0-0-0'
+    #naming_convention = '00_VIS_TV_000_0-0-0'
 
     try:
 
         # Check if the path where we want to save the image to exists and make
         # it if it doesn't
-        if not os.path.exists('images/{0}/{1}/{2}'.format(experiment_name, plant_name, date).replace(' ', '')):
+        if not os.path.exists('images/{0}/{1}'.format(plant_name, date).replace(' ', '')):
             os.makedirs(
-                'images/{0}/{1}/{2}'.format(experiment_name, plant_name, date).replace(' ', ''))
+                'images/{0}/{1}'.format(plant_name, date).replace(' ', ''))
 
-        os.rename('capt0000.nef', 'images/{0}/{1}/{2}/{3}.nef'.format(
-            experiment_name, plant_name, date, naming_convention).replace(' ', ''))
+        os.rename('capt0000.nef', 'images/{0}/{1}/{0}.nef'.format(plant_name, date).replace(' ', ''))
 
-        os.rename('capt0000.jpg', 'images/{0}/{1}/{2}/{3}.jpg'.format(
-            experiment_name, plant_name, date, naming_convention).replace(' ', ''))
+        os.rename('capt0000.jpg', 'images/{0}/{1}/{0}.jpg'.format(plant_name, date).replace(' ', ''))
 
         return True
 

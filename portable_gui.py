@@ -21,8 +21,10 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.plant_queue = []
+        self.plants_imaged = [] 
         self.btn_take_picture.clicked.connect(self.take_picture)
         self.list_plant_order.currentItemChanged.connect(self.select_plant)
+        self.list_plants_done.currentItemChanged.connect(self.select_imaged_plant)
 
         self.btn_open_csv.clicked.connect(self.select_csv)
         self.btn_load_csv.clicked.connect(self.load_csv)
@@ -30,13 +32,21 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
     def setup_plant_list(self):
         self.list_plant_order.clear()
+        self.list_plants_done.clear()
         for plant in self.plant_queue:
             print(plant)
             item = QListWidgetItem(str(plant))
             self.list_plant_order.addItem(item)
+        
+        for plant in reversed(self.plants_imaged): 
+            item = QListWidgetItem(str(plant))
+            self.list_plants_done.addItem(item)
 
     def select_plant(self):
         self.in_plant_name.setText(self.list_plant_order.currentItem().text())
+
+    def select_imaged_plant(self):
+        self.in_plant_name.setText(self.list_plants_done.currentItem().text())
 
     def load_csv(self):
         try:
@@ -57,10 +67,11 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
     def take_picture(self):
         try:
             # TODO Fix this arbitrary dates
-            if portable_camera.take_picture(self.in_plant_name.text(), '2015-06-14'):
-                myPixmap = QPixmap('images/{0}/2015-06-14/{0}.jpg'.format(
+            if portable_camera.take_picture(self.in_plant_name.text(), '2017-02-01'):
+                myPixmap = QPixmap('images/{0}/2017-02-01/{0}.jpg'.format(
                     self.in_plant_name.text()).replace(' ', ''))
                 self.lbl_last_capture.setPixmap(myPixmap)
+                self.plants_imaged.append(self.in_plant_name.text())
                 self.plant_queue.remove(self.in_plant_name.text())
                 if self.plant_queue is not None:
                     self.in_plant_name.setText(self.plant_queue[0])
@@ -73,7 +84,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         except Exception as e:
             print(e)
             self.show_dialog(
-                "Looks like you did something bad with the image naming")
+                "Looks like you retook a picture! Old image has been overwritten")
 
     def show_dialog(self, message):
         msg = QMessageBox()
