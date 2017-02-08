@@ -1,6 +1,14 @@
 #!/usr/bin/python3
 
+"""
+This is the GUI application that when ran controls the portable_camera application
+For more info contact nah31@aber.ac.uk | nathan1hughes@gmail.com
+Or read the documentation on the Wiki or the README.md in this directory
+"""
+
+
 import sys
+from datetime import date
 from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -21,10 +29,11 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.plant_queue = []
-        self.plants_imaged = [] 
+        self.plants_imaged = []
         self.btn_take_picture.clicked.connect(self.take_picture)
         self.list_plant_order.currentItemChanged.connect(self.select_plant)
-        self.list_plants_done.currentItemChanged.connect(self.select_imaged_plant)
+        self.list_plants_done.currentItemChanged.connect(
+            self.select_imaged_plant)
 
         self.btn_open_csv.clicked.connect(self.select_csv)
         self.btn_load_csv.clicked.connect(self.load_csv)
@@ -37,8 +46,8 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
             print(plant)
             item = QListWidgetItem(str(plant))
             self.list_plant_order.addItem(item)
-        
-        for plant in reversed(self.plants_imaged): 
+
+        for plant in reversed(self.plants_imaged):
             item = QListWidgetItem(str(plant))
             self.list_plants_done.addItem(item)
 
@@ -67,9 +76,12 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
     def take_picture(self):
         try:
             # TODO Fix this arbitrary dates
-            if portable_camera.take_picture(self.in_plant_name.text(), '2017-02-01'):
-                myPixmap = QPixmap('images/{0}/2017-02-01/{0}.jpg'.format(
-                    self.in_plant_name.text()).replace(' ', ''))
+            date_str = '{0}-{1}-{2}'.format(date.today().year,
+                                            date.today().month, date.today().day)
+
+            if portable_camera.take_picture(self.in_plant_name.text(), date_str):
+                myPixmap = QPixmap(
+                    'images/{0}/{1}/{0}.jpg'.format(self.in_plant_name.text().replace(' ', ''), date_str))
                 self.lbl_last_capture.setPixmap(myPixmap)
                 self.plants_imaged.append(self.in_plant_name.text())
                 self.plant_queue.remove(self.in_plant_name.text())
