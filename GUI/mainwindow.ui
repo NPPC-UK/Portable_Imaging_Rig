@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>563</height>
+    <width>1449</width>
+    <height>675</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,15 +19,52 @@
      <rect>
       <x>20</x>
       <y>30</y>
-      <width>331</width>
-      <height>481</height>
+      <width>441</width>
+      <height>561</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="1">
-      <widget class="QPushButton" name="btn_open_csv">
+     <item row="1" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>CSV File: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="in_csv_file"/>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="btn_load_csv">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Open CSV</string>
+        <string>Load CSV</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Plant Queue</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QListWidget" name="list_plants_done"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Plants Processed</string>
        </property>
       </widget>
      </item>
@@ -47,52 +84,36 @@
      </item>
      <item row="0" column="1">
       <widget class="QPushButton" name="btn_take_picture">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Take Picture</string>
        </property>
-       <property name="default">
+       <property name="autoDefault">
         <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
      <item row="4" column="0">
       <widget class="QListWidget" name="list_plant_order"/>
      </item>
-     <item row="1" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>CSV File: </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="in_csv_file"/>
-       </item>
-      </layout>
-     </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="btn_load_csv">
-       <property name="text">
-        <string>Load CSV</string>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="btn_open_csv">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QListWidget" name="list_plants_done"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Plant Queue</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Plants Processed</string>
+        <string>Open CSV</string>
        </property>
       </widget>
      </item>
@@ -101,10 +122,10 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>470</x>
       <y>30</y>
-      <width>621</width>
-      <height>481</height>
+      <width>951</width>
+      <height>561</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -138,7 +159,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>470</x>
       <y>10</y>
       <width>619</width>
       <height>17</height>
@@ -146,6 +167,19 @@
     </property>
     <property name="text">
      <string>Most Recent Image:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_quit">
+    <property name="geometry">
+     <rect>
+      <x>1330</x>
+      <y>610</y>
+      <width>90</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Quit</string>
     </property>
    </widget>
   </widget>

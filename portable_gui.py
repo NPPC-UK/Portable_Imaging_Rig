@@ -37,7 +37,11 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
         self.btn_open_csv.clicked.connect(self.select_csv)
         self.btn_load_csv.clicked.connect(self.load_csv)
+        self.btn_quit.clicked.connect(self.quit_program)
         self.show()
+
+    def quit_program(self):
+        sys.exit()
 
     def setup_plant_list(self):
         self.list_plant_order.clear()
@@ -56,6 +60,12 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
     def select_imaged_plant(self):
         self.in_plant_name.setText(self.list_plants_done.currentItem().text())
+        date_str = '{0}-{1}-{2}'.format(date.today().year,
+                                        date.today().month, date.today().day)
+        myPixmap = QPixmap(
+            'images/{0}/{1}/{0}.jpg'.format(self.list_plants_done.currentItem().text().replace(' ', ''), date_str))
+
+        self.lbl_last_capture.setPixmap(myPixmap)
 
     def load_csv(self):
         try:
@@ -75,7 +85,6 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
     def take_picture(self):
         try:
-            # TODO Fix this arbitrary dates
             date_str = '{0}-{1}-{2}'.format(date.today().year,
                                             date.today().month, date.today().day)
 
