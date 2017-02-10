@@ -69,11 +69,28 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         reply = QMessageBox.question(self, 'Message',
                                            quit_msg, QMessageBox.No, QMessageBox.Yes)
         if reply == QMessageBox.Yes:
+            # Could perform any additional clean-up here
+            # possibly exporting of images if a connection is available
             sys.exit()
+        else:
+            try:
+                event.ignore()
+            except AttributeError:
+                pass
 
     def setup_plant_list(self):
+        """
+        This is ran each time a picture is taken
+        here the list of plants imaged and to be imaged
+        is rearranged and displayed to the user
+        """
+
+        # Clears the current lists
         self.list_plant_order.clear()
         self.list_plants_done.clear()
+
+        # Loop over the contents of both lists and add them back
+        # to their display
         for plant in self.plant_queue:
             print(plant)
             item = QListWidgetItem(str(plant))
@@ -84,17 +101,20 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
             self.list_plants_done.addItem(item)
 
     def select_plant(self):
+        """Makes a selection of a plant, in the not-yet-imaged section"""
         self.in_plant_name.setText(self.list_plant_order.currentItem().text())
 
     def select_imaged_plant(self):
+        """Makes a selection of a plant from the just taken selection"""
         self.in_plant_name.setText(self.list_plants_done.currentItem().text())
 
+        # Takes the plant name and puts in on display
         myPixmap = QPixmap(
             'images/{0}/{1}/{0}.jpg'.format(self.list_plants_done.currentItem().text().replace(' ', ''), date_str))
-
         self.lbl_last_capture.setPixmap(myPixmap)
 
     def load_csv(self):
+        """Loads a given CSV of names"""
         try:
             with open(self.in_csv_file.text()) as f:
                 self.plant_queue = [p.replace('\n', '') for p in f.readlines()]
