@@ -21,26 +21,46 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(gui_file)
 # Where 0 is the plant name and 1 is the date
 plant_save_location = 'images/{0}/{1}'
 
+# This generates the date string used in naming
 date_str = '{0}-{1}-{2}'.format(date.today().year,
                                 date.today().month, date.today().day)
 
 
 class PlantCaptureGui(QMainWindow, Ui_MainWindow):
+    """
+    This is the main class which controls the entire GUI
+    A command-line tool exists called "portable_camera.py
+    But its functionality exists in this file too!
+    """
 
     def __init__(self):
+        """
+        Here all of the on-screen objects are assigned to this script for control
+        anything, widget-wise which is added in the future must be connected up
+        here or else it will not be found by any of the following functions
+        """
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
+
+        # These are the lists of plants processed and
+        # plants to be processed
         self.plant_queue = []
         self.plants_imaged = []
+
+        # These buttons allow the user to interact with the program
         self.btn_take_picture.clicked.connect(self.take_picture)
+        self.btn_open_csv.clicked.connect(self.select_csv)
+        self.btn_load_csv.clicked.connect(self.load_csv)
+        self.btn_quit.clicked.connect(self.quit_program)
+
+        # These are the lists which show the plants' names to be used
         self.list_plant_order.currentItemChanged.connect(self.select_plant)
         self.list_plants_done.currentItemChanged.connect(
             self.select_imaged_plant)
 
-        self.btn_open_csv.clicked.connect(self.select_csv)
-        self.btn_load_csv.clicked.connect(self.load_csv)
-        self.btn_quit.clicked.connect(self.quit_program)
+        # Calling show must be at the end of this setup if we want everything previous to it to
+        # be rendered
         self.show()
 
     def quit_program(self):
