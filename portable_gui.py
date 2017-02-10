@@ -21,6 +21,9 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(gui_file)
 # Where 0 is the plant name and 1 is the date
 plant_save_location = 'images/{0}/{1}'
 
+date_str = '{0}-{1}-{2}'.format(date.today().year,
+                                date.today().month, date.today().day)
+
 
 class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
@@ -60,8 +63,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
     def select_imaged_plant(self):
         self.in_plant_name.setText(self.list_plants_done.currentItem().text())
-        date_str = '{0}-{1}-{2}'.format(date.today().year,
-                                        date.today().month, date.today().day)
+
         myPixmap = QPixmap(
             'images/{0}/{1}/{0}.jpg'.format(self.list_plants_done.currentItem().text().replace(' ', ''), date_str))
 
@@ -85,9 +87,6 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
     def take_picture(self):
         try:
-            date_str = '{0}-{1}-{2}'.format(date.today().year,
-                                            date.today().month, date.today().day)
-
             if portable_camera.take_picture(self.in_plant_name.text(), date_str):
                 myPixmap = QPixmap(
                     'images/{0}/{1}/{0}.jpg'.format(self.in_plant_name.text().replace(' ', ''), date_str))
@@ -102,6 +101,11 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
             else:
                 self.show_dialog(
                     "The picture did not take sucessfully, check camera is connected and try again")
+
+        except IndexError:
+            self.show_dialog(
+                "All plants have been processed, no new pictures to be taken!")
+
         except Exception as e:
             print(e)
             self.show_dialog(
