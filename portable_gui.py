@@ -52,7 +52,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         self.btn_take_picture.clicked.connect(self.take_picture)
         self.btn_open_csv.clicked.connect(self.select_csv)
         self.btn_load_csv.clicked.connect(self.load_csv)
-        self.btn_quit.clicked.connect(self.quit_program)
+        self.btn_quit.clicked.connect(self.closeEvent)
 
         # These are the lists which show the plants' names to be used
         self.list_plant_order.currentItemChanged.connect(self.select_plant)
@@ -63,8 +63,13 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         # be rendered
         self.show()
 
-    def quit_program(self):
-        sys.exit()
+    def closeEvent(self, event):
+        """Exits the program, completely"""
+        quit_msg = "Are you sure you want to exit the program?"
+        reply = QMessageBox.question(self, 'Message',
+                                           quit_msg, QMessageBox.No, QMessageBox.Yes)
+        if reply == QMessageBox.Yes:
+            sys.exit()
 
     def setup_plant_list(self):
         self.list_plant_order.clear()
