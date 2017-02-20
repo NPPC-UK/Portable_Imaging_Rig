@@ -22,7 +22,7 @@ class gphoto2_exception(Exception):
 
 
 def take_picture(plant_name, date_taken, experiment_name='TR008'):
-    """ 
+    """
     Given a plant_name, date and experiment_name (optional)
     Will take the photo and save it accordingly
     """
@@ -33,20 +33,20 @@ def take_picture(plant_name, date_taken, experiment_name='TR008'):
     #naming_convention = '00_VIS_TV_000_0-0-0'
 
     try:
-
         # Check if the path where we want to save the image to exists and make
         # it if it doesn't
-        if not os.path.exists('images/{0}/{1}'.format(plant_name, date_taken).replace(' ', '')):
-            os.makedirs(
-                'images/{0}/{1}'.format(plant_name, date_taken).replace(' ', ''))
+        if not os.path.exists('images/{0}/{1}/{2}'.
+                              format(experiment_name, plant_name, date_taken).replace(' ', '')):
+            os.makedirs('images/{0}/{1}/{2}'.
+                        format(experiment_name, plant_name, date_taken).replace(' ', ''))
 
         os.rename(
-            'capt0000.nef', 'images/{0}/{1}/{0}.nef'.
-            format(plant_name, date_taken).replace(' ', ''))
+            'capt0000.nef', 'images/{0}/{1}/{2}/{1}.nef'.
+            format(experiment_name, plant_name, date_taken).replace(' ', ''))
 
         os.rename(
-            'capt0000.jpg', 'images/{0}/{1}/{0}.jpg'.
-            format(plant_name, date_taken).replace(' ', ''))
+            'capt0000.jpg', 'images/{0}/{1}/{2}/{1}.jpg'.
+            format(experiment_name, plant_name, date_taken).replace(' ', ''))
 
         return True
 
