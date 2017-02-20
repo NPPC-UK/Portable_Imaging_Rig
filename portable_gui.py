@@ -104,6 +104,11 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         # be rendered
         self.show()
 
+    def keyPressEvent(self, e):
+        """This now triggers on hitting return/enter to take pictures!!"""
+        if e.key() == Qt.Key_Return:
+            self.take_picture()
+
     def take_test_image(self):
         """Takes a test image"""
         self.take_picture(test_image=True)
