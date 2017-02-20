@@ -92,7 +92,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         # These buttons allow the user to interact with the program
         self.btn_take_picture.clicked.connect(self.take_picture)
         self.btn_open_csv.clicked.connect(self.select_csv)
-        self.btn_load_csv.clicked.connect(self.load_csv)
+        self.btn_test_image.clicked.connect(self.take_test_image)
         self.btn_quit.clicked.connect(self.closeEvent)
 
         # These are the lists which show the plants' names to be used
@@ -103,6 +103,10 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         # Calling show must be at the end of this setup if we want everything previous to it to
         # be rendered
         self.show()
+
+    def take_test_image(self):
+        """Takes a test image"""
+        self.take_picture(test_image=True)
 
     def closeEvent(self, event):
         """Exits the program, completely"""
@@ -151,16 +155,17 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
         # Takes the plant name and puts in on display
         imgDisplay = QPixmap(
-            'images/{0}/{1}/{0}.jpg'.format(self.list_plants_done.currentItem().text().replace(' ', ''), date_str))
+            'images/{0}/{1}/{2}/{1}.jpg'.format(self.in_experimentID.text().replace(' ', ''),
+                                                self.list_plants_done.currentItem().text().replace(' ', ''), date_str))
         self.lbl_last_capture.setPixmap(imgDisplay)
 
     def load_csv(self):
         """Loads a given CSV of names"""
         try:
             with open(self.in_csv_file.text()) as f:
+                self.in_experimentID.setText(f.readline())
                 self.plant_queue = [p.replace('\n', '') for p in f.readlines()]
                 self.setup_plant_list()
-                self.btn_load_csv.setEnabled(False)
         except:
             self.show_dialog(
                 "Try making sure that you've selected a valid CSV")
@@ -169,13 +174,16 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         fname = QFileDialog.getOpenFileName(
             self, 'Open file', '.', "CSV Files (*.csv)")
         self.in_csv_file.setText(fname)
-        self.btn_load_csv.setEnabled(True)
+        self.load_csv()
 
-    def take_picture(self):
+    def take_picture(self, test_image=False):
         try:
-            if take_picture(self.in_plant_name.text(), date_str):
+            if take_picture(self.in_plant_name.text() if test_image is False else 'test_image',
+                            date_str, experiment_name=self.in_experimentID.text().replace(' ', '')):
+
                 imgDisplay = QPixmap(
-                    'images/{0}/{1}/{0}.jpg'.format(self.in_plant_name.text().replace(' ', ''), date_str))
+                    'images/{0}/{1}/{2}/{1}.jpg'.format(self.in_experimentID.text().replace(' ', ''),
+                                                        self.in_plant_name.text().replace(' ', ''), date_str))
                 self.lbl_last_capture.setPixmap(imgDisplay)
                 self.plants_imaged.append(self.in_plant_name.text())
                 self.plant_queue.remove(self.in_plant_name.text())
