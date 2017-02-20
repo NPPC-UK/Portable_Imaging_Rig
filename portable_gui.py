@@ -166,6 +166,8 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
                 self.in_experimentID.setText(f.readline())
                 self.plant_queue = [p.replace('\n', '') for p in f.readlines()]
                 self.setup_plant_list()
+                self.in_plant_name.setText(self.plant_queue[0])
+
         except:
             self.show_dialog(
                 "Try making sure that you've selected a valid CSV")
@@ -183,8 +185,12 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
                 imgDisplay = QPixmap(
                     'images/{0}/{1}/{2}/{1}.jpg'.format(self.in_experimentID.text().replace(' ', ''),
-                                                        self.in_plant_name.text().replace(' ', ''), date_str))
+                                                        self.in_plant_name.text().replace(' ', '')
+                                                        if test_image is False else 'test_image', date_str))
+
                 self.lbl_last_capture.setPixmap(imgDisplay)
+                if test_image:
+                    return
                 self.plants_imaged.append(self.in_plant_name.text())
                 self.plant_queue.remove(self.in_plant_name.text())
                 if self.plant_queue is not None:
