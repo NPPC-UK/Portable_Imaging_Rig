@@ -8,12 +8,52 @@ Or read the documentation on the Wiki or the README.md in this directory
 
 
 import sys
+import os
+from subprocess import Popen, PIPE, STDOUT
 from datetime import date
 from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-import portable_camera
+
+class gphoto2_exception(Exception):
+    """Doesn't do anything, just keeps things rolling"""
+    pass
+
+
+def take_picture(plant_name, date_taken, experiment_name='TR008'):
+    """ 
+    Given a plant_name, date and experiment_name (optional)
+    Will take the photo and save it accordingly
+    """
+    cmd = 'gphoto2 --capture-image-and-download --force-overwrite'
+    Popen((cmd), shell=True, stdin=PIPE,
+          stdout=PIPE, stderr=STDOUT, close_fds=True).wait()
+
+    #naming_convention = '00_VIS_TV_000_0-0-0'
+
+    try:
+
+        # Check if the path where we want to save the image to exists and make
+        # it if it doesn't
+        if not os.path.exists('images/{0}/{1}'.format(plant_name, date_taken).replace(' ', '')):
+            os.makedirs(
+                'images/{0}/{1}'.format(plant_name, date_taken).replace(' ', ''))
+
+        os.rename(
+            'capt0000.nef', 'images/{0}/{1}/{0}.nef'.
+            format(plant_name, date_taken).replace(' ', ''))
+
+        os.rename(
+            'capt0000.jpg', 'images/{0}/{1}/{0}.jpg'.
+            format(plant_name, date_taken).replace(' ', ''))
+
+        return True
+
+    except gphoto2_exception:
+        print('There was a problem capturing this image')
+        return False
+
 
 gui_file = 'GUI/mainwindow.ui'
 Ui_MainWindow, QtBaseClass = uic.loadUiType(gui_file)
@@ -30,7 +70,8 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
     """
     This is the main class which controls the entire GUI
     A command-line tool exists called "portable_camera.py
-    But its functionality exists in this file too!
+    But its functionality exists in this file too
+    and therfore is independant!
     """
 
     def __init__(self):
@@ -132,7 +173,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
     def take_picture(self):
         try:
-            if portable_camera.take_picture(self.in_plant_name.text(), date_str):
+            if take_picture(self.in_plant_name.text(), date_str):
                 imgDisplay = QPixmap(
                     'images/{0}/{1}/{0}.jpg'.format(self.in_plant_name.text().replace(' ', ''), date_str))
                 self.lbl_last_capture.setPixmap(imgDisplay)
