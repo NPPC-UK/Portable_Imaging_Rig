@@ -109,9 +109,9 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         self.in_plant_name.setText(self.list_plants_done.currentItem().text())
 
         # Takes the plant name and puts in on display
-        myPixmap = QPixmap(
+        imgDisplay = QPixmap(
             'images/{0}/{1}/{0}.jpg'.format(self.list_plants_done.currentItem().text().replace(' ', ''), date_str))
-        self.lbl_last_capture.setPixmap(myPixmap)
+        self.lbl_last_capture.setPixmap(imgDisplay)
 
     def load_csv(self):
         """Loads a given CSV of names"""
@@ -133,9 +133,9 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
     def take_picture(self):
         try:
             if portable_camera.take_picture(self.in_plant_name.text(), date_str):
-                myPixmap = QPixmap(
+                imgDisplay = QPixmap(
                     'images/{0}/{1}/{0}.jpg'.format(self.in_plant_name.text().replace(' ', ''), date_str))
-                self.lbl_last_capture.setPixmap(myPixmap)
+                self.lbl_last_capture.setPixmap(imgDisplay)
                 self.plants_imaged.append(self.in_plant_name.text())
                 self.plant_queue.remove(self.in_plant_name.text())
                 if self.plant_queue is not None:
