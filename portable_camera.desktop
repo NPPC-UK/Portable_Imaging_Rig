@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=0.1
+Name=Portable Camera
+Comment=A GUI application for running a portable camera rig
+Exec={executable}
+Icon={icon}
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Education;Science;ImageProcessing;
