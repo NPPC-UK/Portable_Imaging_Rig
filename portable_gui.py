@@ -32,6 +32,9 @@ def take_picture(plant_name, date_taken, experiment_name='TR008'):
 
     #naming_convention = '00_VIS_TV_000_0-0-0'
 
+    # little fail safe to replace the saving directory to be in the user space
+    os.chdir(os.path.expanduser('~/'))
+
     try:
         # Check if the path where we want to save the image to exists and make
         # it if it doesn't
@@ -55,7 +58,7 @@ def take_picture(plant_name, date_taken, experiment_name='TR008'):
         return False
 
 
-gui_file = 'GUI/mainwindow.ui'
+gui_file = '/GUI/mainwindow.ui'
 Ui_MainWindow, QtBaseClass = uic.loadUiType(gui_file)
 
 # Where 0 is the plant name and 1 is the date
