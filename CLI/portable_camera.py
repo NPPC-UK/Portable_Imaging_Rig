@@ -23,15 +23,13 @@ def take_picture(plant_name, date, experiment_name='TR008'):
 
         # Check if the path where we want to save the image to exists and make
         # it if it doesn't
-        if not os.path.exists('images/{0}/{1}/{2}'.format(experiment_name, plant_name, date).replace(' ', '')):
+        if not os.path.exists('images/{0}/{1}'.format(plant_name, date).replace(' ', '')):
             os.makedirs(
-                'images/{0}/{1}/{2}'.format(experiment_name, plant_name, date).replace(' ', ''))
+                'images/{0}/{1}'.format(plant_name, date).replace(' ', ''))
 
-        os.rename('capt0000.nef', 'images/{0}/{1}/{2}/{3}.nef'.format(
-            experiment_name, plant_name, date, naming_convention).replace(' ', ''))
+        os.rename('capt0000.nef', 'images/{0}/{1}/{0}.nef'.format(plant_name, date).replace(' ', ''))
 
-        os.rename('capt0000.jpg', 'images/{0}/{1}/{2}/{3}.jpg'.format(
-            experiment_name, plant_name, date, naming_convention).replace(' ', ''))
+        os.rename('capt0000.jpg', 'images/{0}/{1}/{0}.jpg'.format(plant_name, date).replace(' ', ''))
 
         return True
 
