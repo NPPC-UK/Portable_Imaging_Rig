@@ -7,6 +7,20 @@ Or read the documentation on the Wiki or the README.md in this directory
 """
 
 
+"""
+             _|\ _/|_,
+           ,((\\``-\\\\_
+         ,(())      `))\
+       ,(()))       ,_ \
+      ((())'   |        \
+      )))))     >.__     \
+      ((('     /    `-. .c|
+              /        `-`'
+
+"""
+
+
+
 import sys
 import os
 from subprocess import Popen, PIPE, STDOUT
@@ -168,7 +182,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         # Loop over the contents of both lists and add them back
         # to their display
         for plant in self.plant_queue:
-            print(plant)
+            #print(plant)
             item = QListWidgetItem(str(plant))
             self.list_plant_order.addItem(item)
 
@@ -211,9 +225,12 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
     def take_picture(self, test_image=False):
         try:
-            # Take a note of the plant index 
-            idx = self.plant_queue.index(self.in_plant_name.text())
-            
+            # Take a note of the plant index
+            idx = 0
+            try:
+                idx = self.plant_queue.index(self.in_plant_name.text())
+            except:
+                idx = 0
             if take_picture(self.in_plant_name.text() if test_image is False else 'test_image',
                             date_str, experiment_name=self.in_experimentID.text().replace(' ', '')):
 
@@ -225,8 +242,14 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
                 self.lbl_last_capture.setPixmap(imgDisplay)
                 if test_image:
                     return
+
+                #if self.plant_name.text() not in self.plants_imaged:
+
                 self.plants_imaged.append(self.in_plant_name.text())
-                self.plant_queue.remove(self.in_plant_name.text())
+                try:
+                    self.plant_queue.remove(self.in_plant_name.text())
+                except:
+                    pass
                 if self.plant_queue is not None:
                     self.setup_plant_list()
                     self.list_plant_order.setCurrentRow(idx)
