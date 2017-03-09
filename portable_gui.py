@@ -16,6 +16,9 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 
+#image_save_directory = '/media/ubuntu/usbdata/'
+image_save_directory = '/home/nathan/'
+
 class gphoto2_exception(Exception):
     """Doesn't do anything, just keeps things rolling"""
     pass
@@ -33,7 +36,7 @@ def take_picture(plant_name, date_taken, experiment_name='TR008'):
     #naming_convention = '00_VIS_TV_000_0-0-0'
 
     # little fail safe to replace the saving directory to be in the user space
-    os.chdir(os.path.expanduser('~/'))
+    os.chdir(image_save_directory)
 
     try:
         # Check if the path where we want to save the image to exists and make
@@ -58,7 +61,8 @@ def take_picture(plant_name, date_taken, experiment_name='TR008'):
         return False
 
 
-gui_file = '/GUI/mainwindow.ui'
+gui_file = 'GUI/mainwindow.ui' # modified per machine
+
 Ui_MainWindow, QtBaseClass = uic.loadUiType(gui_file)
 
 # Where 0 is the plant name and 1 is the date
@@ -103,6 +107,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         self.list_plants_done.currentItemChanged.connect(
             self.select_imaged_plant)
 
+        self.btn_skip.clicked.connect(self.skip_image)
         # Calling show must be at the end of this setup if we want everything previous to it to
         # be rendered
         self.show()
@@ -112,6 +117,24 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         if e.key() == Qt.Key_Return:
             self.take_picture()
 
+    def skip_image(self):
+        """Skips over the currently selected image"""
+        try:
+            # take note of the index of given to skip
+            idx = self.plant_queue.index(self.in_plant_name.text())
+            self.plants_imaged.append(self.in_plant_name.text())
+            self.plant_queue.remove(self.in_plant_name.text())
+            self.setup_plant_list()
+
+            # set the next entry to be that of the previous (if possible)
+            self.in_plant_name.setText(self.plant_queue[idx])
+            self.list_plant_order.setCurrentRow(idx)
+        except:
+            self.show_dialog("Couldn't skip this image, maybe you've already?!")
+
+            
+            
+    
     def take_test_image(self):
         """Takes a test image"""
         self.take_picture(test_image=True)
@@ -171,7 +194,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
         """Loads a given CSV of names"""
         try:
             with open(self.in_csv_file.text()) as f:
-                self.in_experimentID.setText(f.readline())
+                self.in_experimentID.setText(f.readline().replace(' ', ''))
                 self.plant_queue = [p.replace('\n', '') for p in f.readlines()]
                 self.setup_plant_list()
                 self.in_plant_name.setText(self.plant_queue[0])
@@ -188,6 +211,9 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
     def take_picture(self, test_image=False):
         try:
+            # Take a note of the plant index 
+            idx = self.plant_queue.index(self.in_plant_name.text())
+            
             if take_picture(self.in_plant_name.text() if test_image is False else 'test_image',
                             date_str, experiment_name=self.in_experimentID.text().replace(' ', '')):
 
@@ -202,8 +228,8 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
                 self.plants_imaged.append(self.in_plant_name.text())
                 self.plant_queue.remove(self.in_plant_name.text())
                 if self.plant_queue is not None:
-                    self.in_plant_name.setText(self.plant_queue[0])
                     self.setup_plant_list()
+                    self.list_plant_order.setCurrentRow(idx)
                 else:
                     self.show_dialog("You're out of plants to image")
             else:
@@ -229,6 +255,8 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
 
 if __name__ == '__main__':
+    # little fail safe to replace the saving directory to be in the user space
+    os.chdir(image_save_directory)
     app = QApplication(sys.argv)
     window = PlantCaptureGui()
     sys.exit(app.exec_())

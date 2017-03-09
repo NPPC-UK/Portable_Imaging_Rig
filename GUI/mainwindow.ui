@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1449</width>
-    <height>675</height>
+    <width>1791</width>
+    <height>963</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1791</width>
+    <height>963</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>NPPC Portable Camera</string>
@@ -20,11 +26,11 @@
       <x>20</x>
       <y>30</y>
       <width>441</width>
-      <height>561</height>
+      <height>871</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="0">
+     <item row="2" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -42,17 +48,17 @@
        </item>
       </layout>
      </item>
-     <item row="3" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Plant Queue</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="6" column="1">
       <widget class="QListWidget" name="list_plants_done"/>
      </item>
-     <item row="3" column="1">
+     <item row="5" column="1">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Plants Processed</string>
@@ -92,10 +98,10 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="6" column="0">
       <widget class="QListWidget" name="list_plant_order"/>
      </item>
-     <item row="2" column="0">
+     <item row="4" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QLabel" name="label_3">
@@ -109,7 +115,7 @@
        </item>
       </layout>
      </item>
-     <item row="2" column="1">
+     <item row="4" column="1">
       <widget class="QPushButton" name="btn_open_csv">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -122,10 +128,17 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="2" column="1">
       <widget class="QPushButton" name="btn_test_image">
        <property name="text">
         <string>Take Test Image</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="btn_skip">
+       <property name="text">
+        <string>Skip Image</string>
        </property>
       </widget>
      </item>
@@ -136,8 +149,8 @@
      <rect>
       <x>470</x>
       <y>30</y>
-      <width>951</width>
-      <height>561</height>
+      <width>1231</width>
+      <height>871</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -184,8 +197,8 @@
    <widget class="QPushButton" name="btn_quit">
     <property name="geometry">
      <rect>
-      <x>1330</x>
-      <y>610</y>
+      <x>1690</x>
+      <y>900</y>
       <width>90</width>
       <height>28</height>
      </rect>

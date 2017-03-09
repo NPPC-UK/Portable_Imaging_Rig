@@ -2,8 +2,8 @@
 Version=0.1
 Name=Portable Camera
 Comment=A GUI application for running a portable camera rig
-Exec={executable}
-Icon={icon}
+Exec=python3 /home/nathan/Git/Portable_Camera/portable_gui.py
+Icon=/home/nathan/Git/Portable_Camera/icon/camera.png
 Terminal=false
 Type=Application
 StartupNotify=true
