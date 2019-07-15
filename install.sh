@@ -14,3 +14,4 @@ sed -i -e "s@gui_file = 'GUI/mainwindow.ui'@gui_file = '$gui_location'@g" $pytho
 # move the desktop file to the user share
 mkdir ~/.local/share/applications/
 cp portable_camera.desktop ~/.local/share/applications/
+chmod +x ~/.local/share/applications/portable_camera.desktop
