@@ -221,7 +221,7 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
 
         # Takes the plant name and puts in on display
         imgDisplay = QPixmap(
-            'images/{0}/{1}/{2}/{1}.jpg'.format(self.in_experimentID.text().replace(' ', ''),
+            'images/{0}/{1}/{2}/{1}.jpg'.format(self.in_experimentID.text().replace('\n', ''),
                                                 self.list_plants_done.currentItem().text().replace(' ', ''), date_str))
         self.lbl_last_capture.setPixmap(imgDisplay)
 
@@ -253,10 +253,10 @@ class PlantCaptureGui(QMainWindow, Ui_MainWindow):
             except:
                 idx = 0
             if take_picture(self.in_plant_name.text() if test_image is False else 'test_image',
-                            date_str, experiment_name=self.in_experimentID.text().replace(' ', '')):
+                            date_str, experiment_name=self.in_experimentID.text().replace('\n', '')):
 
                 imgDisplay = QPixmap(
-                    'images/{0}/{1}/{2}/{1}.jpg'.format(self.in_experimentID.text().replace(' ', ''),
+                    'images/{0}/{1}/{2}/{1}.jpg'.format(self.in_experimentID.text().replace('\n', ''),
                                                         self.in_plant_name.text().replace(' ', '')
                                                         if test_image is False else 'test_image', date_str))
 
