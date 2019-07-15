@@ -30,12 +30,27 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 
-#image_save_directory = '/media/ubuntu/usbdata/'
-image_save_directory = '/home/nathan/'
+image_save_directory = '/media/ubuntu/usbdata/'
+#image_save_directory = '/home/nathan/'
 
 class gphoto2_exception(Exception):
     """Doesn't do anything, just keeps things rolling"""
     pass
+
+
+
+def check_camera():
+    #check type of camera being used
+    cmd = 'gphoto2 --auto-detect'
+    proc = Popen((cmd), shell=True, stdin=PIPE,
+                 stdout=PIPE, stderr=STDOUT)
+    tmp = proc.stdout.read()
+    
+    if "Coolpix" in tmp.decode():
+        cam_type = 'coolpix'
+    else:
+        cam_type = 'dslr'
+    return cam_type
 
 
 def take_picture(plant_name, date_taken, experiment_name='TR008'):
@@ -43,9 +58,19 @@ def take_picture(plant_name, date_taken, experiment_name='TR008'):
     Given a plant_name, date and experiment_name (optional)
     Will take the photo and save it accordingly
     """
-    cmd = 'gphoto2 --capture-image-and-download --force-overwrite'
-    Popen((cmd), shell=True, stdin=PIPE,
-          stdout=PIPE, stderr=STDOUT, close_fds=True).wait()
+
+
+    if 'coolpix' in check_camera():
+
+        cmd = 'gphoto2 --capture-image-and-download --force-overwrite --filename capt0000.jpg'
+        Popen((cmd), shell=True, stdin=PIPE,
+              stdout=PIPE, stderr=STDOUT, close_fds=True).wait()
+        
+    else:
+        cmd = 'gphoto2 --capture-image-and-download --force-overwrite'
+        Popen((cmd), shell=True, stdin=PIPE,
+              stdout=PIPE, stderr=STDOUT, close_fds=True).wait()
+
 
     #naming_convention = '00_VIS_TV_000_0-0-0'
 
@@ -59,10 +84,6 @@ def take_picture(plant_name, date_taken, experiment_name='TR008'):
                               format(experiment_name, plant_name, date_taken).replace(' ', '')):
             os.makedirs('images/{0}/{1}/{2}'.
                         format(experiment_name, plant_name, date_taken).replace(' ', ''))
-
-        os.rename(
-            'capt0000.nef', 'images/{0}/{1}/{2}/{1}.nef'.
-            format(experiment_name, plant_name, date_taken).replace(' ', ''))
 
         os.rename(
             'capt0000.jpg', 'images/{0}/{1}/{2}/{1}.jpg'.
