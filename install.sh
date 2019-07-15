@@ -12,4 +12,5 @@ python_script_to_edit="$(pwd)/portable_gui.py"
 sed -i -e "s@gui_file = 'GUI/mainwindow.ui'@gui_file = '$gui_location'@g" $python_script_to_edit
 
 # move the desktop file to the user share
+mkdir ~/.local/share/applications/
 cp portable_camera.desktop ~/.local/share/applications/
