@@ -1,5 +1,7 @@
 # Portable Camera application
 
+[![DOI](https://zenodo.org/badge/80664597.svg)](https://zenodo.org/badge/latestdoi/80664597)
+
 ## Dependancies
 gphoto2
 python 3
