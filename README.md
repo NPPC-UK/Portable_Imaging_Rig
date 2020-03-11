@@ -1,4 +1,4 @@
-# Portable Camera applicaiton
+# Portable Camera application
 
 ## Dependancies
 gphoto2
