@@ -1,0 +1,25 @@
+# YAML 1.2
+---
+authors: 
+  -
+    family-names: Hughes
+    given-names: Nathan
+    orcid: "https://orcid.org/0000-0002-4572-5828"
+  -
+    affiliation: "Aberystwyth University"
+    family-names: Sauze
+    given-names: Colin
+    orcid: "https://orcid.org/0000-0001-5368-9217"
+  -
+    family-names: Friedersdorff
+    given-names: Maximilian
+    orcid: "https://orcid.org/0000-0001-5175-3596"
+cff-version: "1.1.0"
+date-released: 2020-03-11
+doi: "10.5281/zenodo.3706797"
+license: "GPL-3.0-or-later"
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/NPPC-UK/Portable_Imaging_Rig"
+title: "Portable Imaging Rig"
+version: "1.1.1"
+...
