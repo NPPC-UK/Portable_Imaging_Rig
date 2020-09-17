@@ -25,10 +25,11 @@ import sys
 import os
 from subprocess import Popen, PIPE, STDOUT
 from datetime import date
-from PyQt4 import uic
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-
+from PyQt5 import uic
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 
 image_save_directory = '/media/ubuntu/usbdata/'
 #image_save_directory = '/home/nathan/'
@@ -96,7 +97,7 @@ def take_picture(plant_name, date_taken, experiment_name='TR008'):
         return False
 
 
-gui_file = 'GUI/mainwindow.ui' # modified per machine
+gui_file = '/home/ubuntu/Camera/GUI/mainwindow.ui' # modified per machine
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(gui_file)
 
